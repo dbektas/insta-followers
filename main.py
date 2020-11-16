@@ -8,8 +8,9 @@ class InstaBot:
         self.username = username
         self.driver.get("https://instagram.com")
         sleep(2)
-        self.driver.find_element_by_xpath("//button[contains(text(), 'Accept')]")\
-            .click()
+        if self.cookies() == True:
+            self.driver.find_element_by_xpath("//button[contains(text(), 'Accept')]")\
+                .click()
         sleep(2)
         self.driver.find_element_by_xpath("//input[@name=\"username\"]")\
             .send_keys(username)
@@ -55,6 +56,14 @@ class InstaBot:
         self.driver.find_element_by_xpath("/html/body/div[5]/div/div/div[1]/div/div[2]/button")\
             .click()
         return names
+
+    def cookies(self) -> bool:
+        try:
+            self.driver.find_element_by_xpath("//button[contains(text(), 'Accept')]")
+            return True
+        except:
+            return False
+
 
 my_bot = InstaBot(secrets.username, secrets.password)
 my_bot.get_unfollowers()
