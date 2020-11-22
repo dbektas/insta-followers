@@ -19,12 +19,14 @@ class InstaBot:
         self.driver.find_element_by_xpath('//button[@type="submit"]')\
             .click()
         sleep(4)
-        self.driver.find_element_by_xpath("//button[contains(text(), 'Not Now')]")\
-            .click()
-        sleep(2)
-        self.driver.find_element_by_xpath("//button[contains(text(), 'Not Now')]")\
-            .click()
-        sleep(2)
+        if self.turn_on_notifications() ==  True:
+            self.driver.find_element_by_xpath("//button[contains(text(), 'Not Now')]")\
+                .click()
+            sleep(2)
+        if self.turn_on_notifications() ==  True:
+            self.driver.find_element_by_xpath("//button[contains(text(), 'Not Now')]")\
+                .click()
+            sleep(2)
 
     def get_unfollowers(self):
         self.driver.find_element_by_xpath("//a[contains(@href,'/{}')]".format(self.username))\
@@ -63,7 +65,13 @@ class InstaBot:
             return True
         except:
             return False
-
+    
+    def turn_on_notifications(self) -> bool:
+        try:
+            self.driver.find_element_by_xpath("//button[contains(text(), 'Not Now')]")
+            return True
+        except:
+            return False
 
 my_bot = InstaBot(secrets.username, secrets.password)
 my_bot.get_unfollowers()
